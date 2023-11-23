@@ -13,10 +13,12 @@ public class ClienteServico {
 	private ClienteRepositorio repositorio;
 	private Scanner entrada;
 
-	public ClienteServico() {
+	public ClienteServico(Cliente[] clientes) {
 		this.repositorio = new ClienteRepositorio();
 		this.entrada = new Scanner(System.in);
 	}
+
+	
 
 	public void desenvolvimentoCliente() {
 		int opcCliente = 0;

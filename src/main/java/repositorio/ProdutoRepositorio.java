@@ -9,16 +9,21 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import modelo.Produto;
+import modelo.Venda;
 import modelo.Produto;
 
 public class ProdutoRepositorio {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public ProdutoRepositorio(Produto[] produtos) {
+	public ProdutoRepositorio(Venda[] produtos) {
 		emf = Persistence.createEntityManagerFactory("come-que-ta-bom");
 		em = emf.createEntityManager();
 	}
+
+
 
 	public Produto inserir(Produto produto) {
 		em.getTransaction().begin();
@@ -34,13 +39,14 @@ public class ProdutoRepositorio {
 		return produto;
 	}
 
-	public void deletar(int indice) {
-		em.getTransaction().begin();
-		Produto produto = em.find(Produto.class, indice);
-		if (produto != null) {
-			em.remove(produto);
-		}
-		em.getTransaction().commit();
+	public Produto deletar(Produto produto) {
+	    em.getTransaction().begin();
+	    Produto produtoEncontrado = em.find(Produto.class, produto.getCodigo());
+	    if (produtoEncontrado != null) {
+	        em.remove(produtoEncontrado);
+	    }
+	    em.getTransaction().commit();
+	    return produtoEncontrado;
 	}
 
 	public Produto getByCodigo(int codigo) {

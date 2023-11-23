@@ -10,20 +10,23 @@ import java.util.Scanner;
 import modelo.Cliente;
 import modelo.Produto;
 import modelo.Venda;
+import modelo.Venda;
+import repositorio.ProdutoRepositorio;
 import repositorio.VendaRepositorio;
 
 public class VendaServico {
 
-	VendaRepositorio repositorio;
-	ClienteServico clienteServico;
-	ProdutoServico produtoServico;
+	private VendaRepositorio repositorio;
+	private ClienteServico clienteServico;
+	private ProdutoServico produtoServico;
 	Scanner entrada;
 
-	public VendaServico(Venda vendas[], Cliente clientes[], Produto produtos[]) {
+	public VendaServico(Venda vendas[], Cliente clientes[], Venda produtos[]) {
 		this.repositorio = new VendaRepositorio(vendas);
-		this.entrada = new Scanner(System.in);
 		this.clienteServico = new ClienteServico(clientes);
 		this.produtoServico = new ProdutoServico(produtos);
+		this.entrada = new Scanner(System.in);
+
 	}
 
 	// desenvolvimento da venda, metodo para fazer registro de uma nova venda
@@ -56,43 +59,23 @@ public class VendaServico {
 	// assim como demais metodos de inserir, valida a posição do array e insere na
 	// primeira posição nula
 	public Venda inserir(Venda venda) {
-		Venda[] vendas = this.repositorio.getVendas();
-		for (int i = 0; i < vendas.length; i++) {
-			if (vendas[i] == null) {
-				venda.setCodigo(i);
-				return repositorio.inserir(venda, i);
-			}
-		}
-		System.out.println("Não existe espaço suficiente para salvar vendas");
-		return null;
+		return repositorio.inserir(venda);
 	}
 
 	public Venda getVenda(int codigo) {
-		Venda venda = repositorio.getByCodigo(codigo);
-		if (venda == null) {
-			System.out.println("Venda não encontrado");
-		}
-		return venda;
+		return repositorio.getByCodigo(codigo);
 	}
 
-	/*
-	 * lista as vendas salvas caso o usuario digite S
-	 */
-	public void listaVendas() {
-		boolean existeVendas = false;
+	public void listarVendas() {
 		System.out.println("Deseja realmente imprimir o relatório (S\\N)");
-		if (entrada.next().equals("S")) {
-			Venda[] vendas = this.repositorio.getVendas();
-			for (int i = 0; i < vendas.length; i++) {
-				if (vendas[i] != null) {
-					System.out.println(vendas[i].toString());
-					existeVendas = true;
-				}
+		String resposta = entrada.next();
+		if (resposta.equalsIgnoreCase("S")) {
+			Venda[] vendas = repositorio.getVendas();
+			for (Venda venda : vendas) {
+				System.out.println(venda.toString());
 			}
 		}
-		if (existeVendas == false) {
-			System.out.println("Não existe vendas lançadas no sistema!");
-		}
+
 	}
 
 	// metodo para gerar nota fiscal

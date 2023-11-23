@@ -20,6 +20,10 @@ public class VendaRepositorio {
 		em = emf.createEntityManager();
 	}
 
+	public VendaRepositorio(Venda[] vendas) {
+		
+	}
+
 	public Venda inserir(Venda venda) {
 		em.getTransaction().begin();
 		em.persist(venda);

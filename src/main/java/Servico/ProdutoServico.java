@@ -6,17 +6,20 @@
 package Servico;
 
 import java.util.Scanner;
+
 import modelo.Produto;
+import modelo.Venda;
 import repositorio.ProdutoRepositorio;
 
 public class ProdutoServico {
-	ProdutoRepositorio repositorio;
+	private ProdutoRepositorio repositorio;
 	Scanner entrada;
 
-	public ProdutoServico(Produto produtos[]) {
+	public ProdutoServico(Venda[] produtos) {
 		this.repositorio = new ProdutoRepositorio(produtos);
 		this.entrada = new Scanner(System.in);
 	}
+
 
 	public void desenvolvimentoProduto() {
 		int opcProduto = 0;
@@ -69,58 +72,33 @@ public class ProdutoServico {
 		} while (opcProduto != 0);
 	}
 
+	
+
 	public Produto inserir(Produto produto) {
-		Produto[] produtos = this.repositorio.getProdutos();
-		for (int i = 0; i < produtos.length; i++) {
-			if (produtos[i] == null) {
-				produto.setCodigo(i);
-				return repositorio.inserir(produto, i);
-			}
-		}
-		System.out.println("Não existe espaço suficiente para salvar produtos");
-		return null;
+		return repositorio.inserir(produto);
 	}
 
 	public Produto atualizar(Produto produto) {
-		Produto[] produtos = this.repositorio.getProdutos();
-		for (int i = 0; i < produtos.length; i++) {
-			if (produtos[i] != null && produto != null && produtos[i].getCodigo() == produto.getCodigo()) {
-				return repositorio.atualizar(produto, i);
-			}
-		}
-		System.out.println("Produto não encontrado");
-		return null;
+		return repositorio.atualizar(produto);
 	}
 
 	public Produto getProduto(int codigo) {
-		Produto produto = repositorio.getByCodigo(codigo);
-		if (produto == null) {
-			System.out.println("Produto não encontrado");
-		}
-		return produto;
+		return repositorio.getByCodigo(codigo);
 	}
 
-	public boolean deletar(Produto produto) {
-		Produto[] produtos = this.repositorio.getProdutos();
-		for (int i = 0; i < produtos.length; i++) {
-			if (produtos[i] != null && produtos[i].getCodigo() == produto.getCodigo()) {
-				repositorio.deletar(i);
-				return true;
-			}
-		}
-		System.out.println("Produto não encontrado");
-		return false;
+	public Produto deletar(Produto produto) {
+		return repositorio.deletar(produto);
 	}
 
-	public void listaProdutos() {
+	public void listaProduto() {
 		System.out.println("Deseja realmente imprimir o relatório (S\\N)");
-		if (entrada.next().equals("S")) {
-			Produto[] produtos = this.repositorio.getProdutos();
-			for (int i = 0; i < produtos.length; i++) {
-				if (produtos[i] != null) {
-					System.out.println(produtos[i].toString());
-				}
+		String resposta = entrada.next();
+		if (resposta.equalsIgnoreCase("S")) {
+			Produto[] produtos = repositorio.getProdutos();
+			for (Produto produto : produtos) {
+				System.out.println(produto.toString());
 			}
 		}
 	}
+
 }
