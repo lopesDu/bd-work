@@ -18,8 +18,6 @@ public class ClienteServico {
 		this.entrada = new Scanner(System.in);
 	}
 
-	
-
 	public void desenvolvimentoCliente() {
 		int opcCliente = 0;
 		do {

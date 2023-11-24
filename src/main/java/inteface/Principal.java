@@ -39,7 +39,7 @@ public class Principal {
                  System.exit(0);
                    break;
                 case 1: //clientes
-                    ClienteServico clienteServico = new ClienteServico();
+                    ClienteServico clienteServico = new ClienteServico(clientes);
                     clienteServico.desenvolvimentoCliente();
                     break;
                 case 2: //produtos
@@ -53,19 +53,19 @@ public class Principal {
                     System.out.println("==============================================");
                     System.out.println("Listagem dos clientes cadastrados");
                     System.out.println("==============================================");
-                    new ClienteServico().listaClientes();
+                    new ClienteServico(clientes).listaClientes();
                     break;
                 case 5://listagem de produtos
                     System.out.println("==============================================");
                     System.out.println("Listagem dos produtos cadastrados");
                     System.out.println("==============================================");
-                    new ProdutoServico(produtos).listaProdutos();
+                    new ProdutoServico(produtos).listaProduto();
                     break;
                 case 6://listagem de vendas
                     System.out.println("==============================================");
                     System.out.println("Listagem dos vendas registradas");
                     System.out.println("==============================================");
-                    new VendaServico(vendas,clientes,produtos).listaVendas();
+                    new VendaServico(vendas,clientes,produtos).listarVendas();
                     break;
                 case 7://nota fiscal
                     System.out.println("==============================================");

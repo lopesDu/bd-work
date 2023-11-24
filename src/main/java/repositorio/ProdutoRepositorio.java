@@ -18,12 +18,10 @@ public class ProdutoRepositorio {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public ProdutoRepositorio(Venda[] produtos) {
+	public ProdutoRepositorio(Produto[] produtos) {
 		emf = Persistence.createEntityManagerFactory("come-que-ta-bom");
 		em = emf.createEntityManager();
 	}
-
-
 
 	public Produto inserir(Produto produto) {
 		em.getTransaction().begin();
@@ -40,13 +38,22 @@ public class ProdutoRepositorio {
 	}
 
 	public Produto deletar(Produto produto) {
-	    em.getTransaction().begin();
-	    Produto produtoEncontrado = em.find(Produto.class, produto.getCodigo());
-	    if (produtoEncontrado != null) {
-	        em.remove(produtoEncontrado);
-	    }
-	    em.getTransaction().commit();
-	    return produtoEncontrado;
+		Produto produtoEncontrado = null;
+		try {
+			em.getTransaction().begin();
+			produtoEncontrado = em.find(Produto.class, produto.getCodigo());
+			if (produtoEncontrado != null) {
+				em.remove(em.merge(produtoEncontrado));
+				em.flush();
+			}
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			System.err.println("Erro ao deletar cliente: " + e.getMessage());
+		}
+		return produtoEncontrado;
 	}
 
 	public Produto getByCodigo(int codigo) {

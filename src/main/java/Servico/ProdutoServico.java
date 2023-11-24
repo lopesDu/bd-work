@@ -15,9 +15,14 @@ public class ProdutoServico {
 	private ProdutoRepositorio repositorio;
 	Scanner entrada;
 
-	public ProdutoServico(Venda[] produtos) {
+	public ProdutoServico(Produto[] produtos) {
 		this.repositorio = new ProdutoRepositorio(produtos);
 		this.entrada = new Scanner(System.in);
+	}
+
+
+	public ProdutoServico(Venda[] produtos) {
+		
 	}
 
 

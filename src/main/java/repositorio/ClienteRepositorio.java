@@ -32,12 +32,21 @@ public class ClienteRepositorio {
 	}
 
 	public Cliente deletar(Cliente cliente) {
-	    em.getTransaction().begin();
-	    Cliente clienteEncontrado = em.find(Cliente.class, cliente.getCodigo());
-	    if (clienteEncontrado != null) {
-	        em.remove(clienteEncontrado);
+	    Cliente clienteEncontrado = null;
+	    try {
+	        em.getTransaction().begin();
+	        clienteEncontrado = em.find(Cliente.class, cliente.getCodigo());
+	        if (clienteEncontrado != null) {
+	            em.remove(em.merge(clienteEncontrado));
+	            em.flush();
+	        }
+	        em.getTransaction().commit();
+	    } catch (Exception e) {
+	        if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback();
+	        }
+	        System.err.println("Erro ao deletar cliente: " + e.getMessage());
 	    }
-	    em.getTransaction().commit();
 	    return clienteEncontrado;
 	}
 

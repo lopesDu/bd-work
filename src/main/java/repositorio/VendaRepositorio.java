@@ -15,14 +15,11 @@ public class VendaRepositorio {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public VendaRepositorio() {
+	public VendaRepositorio(Venda[] vendas) {
 		emf = Persistence.createEntityManagerFactory("come-que-ta-bom");
 		em = emf.createEntityManager();
 	}
 
-	public VendaRepositorio(Venda[] vendas) {
-		
-	}
 
 	public Venda inserir(Venda venda) {
 		em.getTransaction().begin();
@@ -36,9 +33,9 @@ public class VendaRepositorio {
 	}
 
 	public Venda[] getVendas() {
-		List<Venda> produtosList = em.createQuery("SELECT p FROM Produto p", Venda.class).getResultList();
-		Venda[] produtosArray = produtosList.toArray(new Venda[produtosList.size()]);
-		return produtosArray;
-
+	    List<Venda> vendasList = em.createQuery("SELECT v FROM Venda v", Venda.class).getResultList();
+	    Venda[] vendasArray = vendasList.toArray(new Venda[vendasList.size()]);
+	    return vendasArray;
 	}
+
 }

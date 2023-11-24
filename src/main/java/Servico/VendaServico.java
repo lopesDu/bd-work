@@ -21,7 +21,7 @@ public class VendaServico {
 	private ProdutoServico produtoServico;
 	Scanner entrada;
 
-	public VendaServico(Venda vendas[], Cliente clientes[], Venda produtos[]) {
+	public VendaServico(Venda vendas[], Cliente clientes[], Produto[] produtos) {
 		this.repositorio = new VendaRepositorio(vendas);
 		this.clienteServico = new ClienteServico(clientes);
 		this.produtoServico = new ProdutoServico(produtos);
